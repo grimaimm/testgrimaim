@@ -1,0 +1,317 @@
+<!-- app/templates/index.html -->
+{% extends 'layout/base.html' %}
+
+{% block title %}Dashboard - Grimaim Code{% endblock %}
+
+{% block content %}
+<link href="{{url_for('static',filename='css/pagespeed.min.css')}}" rel="stylesheet" defer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="flex justify-center">
+  <main class="content flex justify-center no-scrollbar w-full scroll-smooth transition-all duration-300 lg:min-h-screen">
+    <div class="container p-4 md:p-8 font-sora">
+      <div class="mb-10 mt-2 aos-init aos-animate" data-aos="fade-up">
+        <h1 class="font-sora text-2xl font-medium text-neutral-800 dark:text-neutral-300">Dashboard</h1>
+        <p class="mb-6 border-b border-dashed border-neutral-600 pb-6 pt-2 text-neutral-600 dark:text-neutral-400">This is my personal dashboard, built with Flask Python API routes deployed as serverless functions.</p>
+        <section class="flex flex-col">
+          <section>
+            <div class="flex items-center gap-1 text-xl font-medium text-neutral-800 dark:text-neutral-300 ">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M20.38 8.57l-1.23 1.85a8 8 0 01-.22 7.58H5.07A8 8 0 0115.58 6.85l1.85-1.23A10 10 0 003.35 19a2 2 0 001.72 1h13.85a2 2 0 001.74-1 10 10 0 00-.27-10.44zm-9.79 6.84a2 2 0 002.83 0l5.66-8.49-8.49 5.66a2 2 0 000 2.83z"></path>
+              </svg>
+              <h2 class="capitalize">Pagespeed Insight</h2>
+            </div>
+            <div class="mt-2 flex flex-col justify-between gap-2 text-neutral-600 dark:text-neutral-400 md:flex-row lg:items-center">
+              <p class="dark:text-neutral-400">My pagespeed index by google APIs</p>
+              <a target="_blank" class="font-code text-sm text-neutral-600 hover:text-neutral-700 dark:text-neutral-400 hover:dark:text-neutral-400 hidden lg:block" href="https://pagespeed.web.dev/">PageSpeed</a>
+            </div>
+            <div class="mt-4 flex space-x-2 overflow-x-auto" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+              <button class="nav-button rounded-lg px-2 py-1 text-xs bg-neutral-700 text-white dark:bg-neutral-200 dark:text-black" data-href="/" onclick="handleRouteChange('/')" 
+                      id="home-tab" data-tabs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/projects" onclick="handleRouteChange('/projects')" 
+                      id="project-tab" data-tabs-target="#project" type="button" role="tab" aria-controls="project" aria-selected="false">Projects</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/blog" onclick="handleRouteChange('/blog')" 
+                      id="blog-tab" data-tabs-target="#blog" type="button" role="tab" aria-controls="blog" aria-selected="false">Blog</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/learn" onclick="handleRouteChange('/learn')" 
+                      id="learn-tab" data-tabs-target="#learn" type="button" role="tab" aria-controls="learn" aria-selected="false">Learn</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/about" onclick="handleRouteChange('/about')" 
+                      id="about-tab" data-tabs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="false">About</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/contact" onclick="handleRouteChange('/contact')" 
+                      id="contact-tab" data-tabs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+              <button class="nav-button rounded-lg px-2 py-1 text-xs text-black dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800" data-href="/dashboard" onclick="handleRouteChange('/dashboard')" 
+                      id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Dashboard</button>
+            </div>
+            <div id="myTabContent">
+              <div id="loading-container" class="my-6 flex items-end justify-center gap-2 space-x-6 text-neutral-600 md:space-x-8 md:text-sm">
+                <article class="lh-vars lh-screenshot-overlay--enabled">
+                  <div class="lh-scores-container">
+                    <div class="lh-pyro">
+                      <div class="lh-pyro-before"></div>
+                      <div class="lh-pyro-after"></div>
+                    </div>
+                    <div class="lh-scores-header">
+                      <div class="lh-gauge__wrapperr lh-gauge__wrapper--not-applicablee">
+                        <div class="lh-gauge__svg-wrapperr">
+                          <svg class="lh-gauge" viewBox="0 0 120 120">
+                            <circle class="lh-gauge-base" r="56" cx="60" cy="60" stroke-width="8"></circle>
+                            <circle class="lh-gauge-arc" r="56" cx="60" cy="60" stroke-width="8" style="transform: rotate(-87.9537deg); stroke-dasharray: 351.858px, 351.858px;"></circle>
+                          </svg>
+                        </div>
+                        <div class="lh-gauge__percentage" style="font-size: 12px; font-weight: 900;">...</div>
+                        <div class="lh-gauge__label text-neutral-700 dark:text-neutral-200 text-nowrap">Performance</div>
+                      </div>
+                      <div class="lh-gauge__wrapperr lh-gauge__wrapper--not-applicablee">
+                        <div class="lh-gauge__svg-wrapperr">
+                          <svg class="lh-gauge" viewBox="0 0 120 120">
+                            <circle class="lh-gauge-base" r="56" cx="60" cy="60" stroke-width="8"></circle>
+                            <circle class="lh-gauge-arc" r="56" cx="60" cy="60" stroke-width="8" style="transform: rotate(-87.9537deg); stroke-dasharray: 351.858px, 351.858px;"></circle>
+                          </svg>
+                        </div>
+                        <div class="lh-gauge__percentage" style="font-size: 12px; font-weight: 900;">...</div>
+                        <div class="lh-gauge__label text-neutral-700 dark:text-neutral-200 text-nowrap">Accessibility</div>
+                      </div>
+                      <div class="lh-gauge__wrapperr lh-gauge__wrapper--not-applicablee">
+                        <div class="lh-gauge__svg-wrapperr">
+                          <svg class="lh-gauge" viewBox="0 0 120 120">
+                            <circle class="lh-gauge-base" r="56" cx="60" cy="60" stroke-width="8"></circle>
+                            <circle class="lh-gauge-arc" r="56" cx="60" cy="60" stroke-width="8" style="transform: rotate(-87.9537deg); stroke-dasharray: 351.858px, 351.858px;"></circle>
+                          </svg>
+                        </div>
+                        <div class="lh-gauge__percentage" style="font-size: 12px; font-weight: 900;">...</div>
+                        <div class="lh-gauge__label text-neutral-700 dark:text-neutral-200 text-nowrap">Best Practices</div>
+                      </div>
+                      <div class="lh-gauge__wrapperr lh-gauge__wrapper--not-applicablee">
+                        <div class="lh-gauge__svg-wrapperr">
+                          <svg class="lh-gauge" viewBox="0 0 120 120">
+                            <circle class="lh-gauge-base" r="56" cx="60" cy="60" stroke-width="8"></circle>
+                            <circle class="lh-gauge-arc" r="56" cx="60" cy="60" stroke-width="8" style="transform: rotate(-87.9537deg); stroke-dasharray: 351.858px, 351.858px;"></circle>
+                          </svg>
+                        </div>
+                        <div class="lh-gauge__percentage" style="font-size: 12px; font-weight: 900;">...</div>
+                        <div class="lh-gauge__label text-neutral-700 dark:text-neutral-200 text-nowrap">SEO</div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div id="resPagespeed" style="display: none;">
+                {% for tab in tabs %}
+                <div class="{% if session['active_tab'] == tab['id'] %} {% else %}hidden{% endif %}" id="{{ tab['id'] }}" role="tabpanel" aria-labelledby="{{ tab['id'] }}-tab">
+                  <div class="my-6 flex items-end justify-center space-x-6 text-neutral-600 md:space-x-10 md:text-sm">
+                      <div class="flex w-max flex-col items-center justify-center space-y-2 text-center">
+                        <article class="lh-vars lh-screenshot-overlay--enabled">
+                          <div class="lh-scores-container">
+                            <div class="lh-pyro">
+                              <div class="lh-pyro-before"></div>
+                              <div class="lh-pyro-after"></div>
+                            </div>
+                            <div class="lh-scores-header">
+                              {% for content in tab['contents'] %}
+                                <div class="lh-gauge__wrapper
+                                  {% if content['score'] == 0 %}
+                                      lh-gauge__wrapper--not-applicable
+                                  {% elif content['score'] >= 90 %}
+                                      lh-gauge__wrapper--pass
+                                  {% elif content['score'] >= 51 %}
+                                      lh-gauge__wrapper--average
+                                  {% else %}
+                                      lh-gauge__wrapper--fail
+                                  {% endif %}">
+                                  <div class="lh-gauge__svg-wrapper">
+                                    <svg class="lh-gauge" viewBox="0 0 120 120">
+                                      <circle class="lh-gauge-base" r="56" cx="60" cy="60" stroke-width="8"></circle>
+                                      <circle class="lh-gauge-arc" r="56" cx="60" cy="60" stroke-width="8" style="transform: rotate(-87.9537deg); stroke-dasharray: {{ (content['score'] * 351.858) / 100 }}px, 351.858px;"></circle>
+                                    </svg>
+                                  </div>
+                                  <div class="lh-gauge__percentage">{{ content['score'] }}</div>
+                                  <div class="lh-gauge__label text-neutral-700 dark:text-neutral-200 text-nowrap">{{ content['label'] }}</div>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </section>
+
+          <div class="border-t border-neutral-200 my-4 mt-0 mb-7 dark:border-neutral-700" data-testid="breakline"></div>
+
+          <section class="flex flex-col gap-y-2">
+            <div class="flex items-center gap-1 text-xl font-medium text-neutral-800 dark:text-neutral-300 ">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+              </svg>
+              <h2 class="capitalize">Contributions</h2>
+            </div>
+            <div class="flex flex-col justify-between gap-2 text-neutral-600 dark:text-neutral-400 md:flex-row lg:items-center">
+              <p class="dark:text-neutral-400">My contributions from last year on github.</p>
+              <a target="_blank" class="font-code text-sm text-neutral-600 hover:text-neutral-700 dark:text-neutral-400 hover:dark:text-neutral-400" href="https://github.com/grimaimm">@grimaimm</a>
+            </div>
+            <div class="space-y-3">
+              <div class="grid grid-cols-2 gap-3 py-2 sm:grid-cols-4">
+                <div class="flex flex-col self-center rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-800">
+                  <span class="text-sm dark:text-neutral-400">Total</span>
+                  <div>
+                    <span class="text-xl font-medium text-green-700 dark:text-green-400 lg:text-2xl" data-testid="counter">{{ contributions_last_year }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col self-center rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-800">
+                  <span class="text-sm dark:text-neutral-400">Repositories</span>
+                  <div>
+                    <span class="text-xl font-medium text-green-700 dark:text-green-400 lg:text-2xl" data-testid="counter">{{ contributions['total_repositories'] }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col self-center rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-800">
+                  <span class="text-sm dark:text-neutral-400">Best Day</span>
+                  <div>
+                    <span class="text-xl font-medium text-green-700 dark:text-green-400 lg:text-2xl" data-testid="counter">{{ contributions['best_day'] }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col self-center rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-800">
+                  <span class="text-sm dark:text-neutral-400">Average</span>
+                  <div>
+                    <span class="text-xl font-medium text-green-700 dark:text-green-400 lg:text-2xl" data-testid="counter">{{ contributions['average_per_day'] }}</span>
+                    <span class="text-sm dark:text-neutral-400"> / day</span>
+                  </div>
+                </div>
+              </div>
+              <div class="relative flex flex-col">
+                <div class="rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-800">
+                  <canvas id="userActivityChart"></canvas>
+                  <script>
+                    function getCurrentTheme() {
+                        return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                    }
+
+                    // Fungsi untuk mendapatkan warna batas yang sesuai dengan tema
+                    function getBorderColor(theme) {
+                        if (theme === 'dark') {
+                            return 'rgba(74, 222, 128, 1)';
+                        } else {
+                            return 'rgba(21, 128, 61, 1)';
+                        }
+                    }
+                    function getbackgroundColor(theme) {
+                        if (theme === 'dark') {
+                            return 'rgba(74, 222, 128, 0.2)';
+                        } else {
+                            return 'rgba(21, 128, 61, 0.2)';
+                        }
+                    }
+                    // Data kontribusi (sesuaikan dengan data yang Anda terima dari Flask)
+                    var contributionsData = {
+                        labels: {{ weekly_contributions.keys() | list | tojson | safe }},
+                        datasets: [{
+                            label: 'Contributions',
+                            data: {{ weekly_contributions.values() | list | tojson | safe }},
+                            backgroundColor: getbackgroundColor(getCurrentTheme()),
+                            borderColor: getBorderColor(getCurrentTheme()),
+                            borderWidth: 1
+                        }]
+                    };
+                
+                    // Mengubah nama bulan menjadi tiga karakter pertama
+                    contributionsData.labels = contributionsData.labels.map(function(label) {
+                        return label.split(" ")[0].substring(0, 3);
+                    });
+                
+                    // Mengubah nama hari menjadi tiga karakter pertama
+                    var dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                
+                    // Inisialisasi grafik
+                    var ctx = document.getElementById('userActivityChart').getContext('2d');
+                    var userActivityChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: contributionsData,
+                        options: {
+                            scales: {
+                                x: {
+                                    type: 'category',
+                                    position: 'bottom',
+                                    labels: contributionsData.labels,
+                                },
+                                y: {
+                                    ticks: {
+                                        callback: function (value, index, values) {
+                                            // Menampilkan hanya hari
+                                            return dayLabels[index];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  function handleRouteChange(href) {
+    activeRoute = href;
+    const buttons = document.querySelectorAll('.nav-button');
+    buttons.forEach(button => {
+      button.classList.remove(
+        'rounded-lg', 'px-2', 'py-1', 'text-xs',
+        'bg-neutral-700', 'text-white', 'dark:bg-neutral-200', 'dark:text-black',
+        'bg-neutral-100', 'dark:bg-neutral-800', 'text-black', 'active', 'dark:text-neutral-100'
+      );
+
+      if (button.getAttribute('data-href') === href) {
+        button.classList.add(
+          'rounded-lg', 'px-2', 'py-1', 'text-xs',
+          'bg-neutral-700', 'text-white', 'dark:bg-neutral-200', 'dark:text-black', 'active'
+        );
+      } else {
+        button.classList.add(
+          'rounded-lg', 'px-2', 'py-1', 'text-xs',
+          'bg-neutral-100', 'dark:bg-neutral-800', 'dark:text-neutral-100'
+        );
+      }
+    });
+  }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".nav-button");
+    const loadingContainer = document.getElementById("loading-container");
+    const resPagespeed = document.getElementById("resPagespeed");
+
+    function showLoading() {
+      loadingContainer.style.display = "flex";
+      resPagespeed.style.display = "none";
+    }
+
+    function hideLoading() {
+      setTimeout(function () {
+        loadingContainer.style.display = "none";
+        resPagespeed.style.display = "block";
+      }, 1000);
+    }
+    showLoading();
+    setTimeout(function () {
+      hideLoading();
+    }, 1000);
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        showLoading();
+
+        setTimeout(function () {
+          hideLoading();
+        }, 1000);
+      });
+    });
+  });
+</script>
+<script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js" defer></script>
+{% endblock %}
